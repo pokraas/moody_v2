@@ -14,6 +14,7 @@ export class HappyBarometerComponent implements OnInit {
   @Input() greenThreshold?: number;
   thresholdConfig = {};
   size: number;
+  thickness: number;
 
 
   public get roundedValue(): number | undefined {
@@ -23,7 +24,8 @@ export class HappyBarometerComponent implements OnInit {
   }
 
   onResize(event) {
-    this.size = Math.min(event.target.innerWidth / 3.5, 300);
+    this.size = Math.min(event.target.innerHeight / 5, 300);
+    this.thickness = this.size * 0.1;
     // console.log(this.size);
   }
 
@@ -34,7 +36,7 @@ export class HappyBarometerComponent implements OnInit {
   // };
 
   constructor() {
-    this.size = Math.min(innerWidth / 3.5, 300);
+    this.onResize({target: window});
     // console.log("Constructor: " + this.size)
   }
 

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ScreenRecorderService } from 'src/app/services/screen-recorder.service';
 import { DashboardService } from 'src/app/services/dashboard.service';
-import { filter, take, takeUntil} from 'rxjs/operators';
+import { debounceTime, filter, take, takeUntil} from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import 'chartjs-adapter-moment';
 
@@ -29,7 +29,11 @@ export class PresenterviewComponent implements OnInit, OnDestroy {
 
   public happiness?: number;
 
-  private happiness$ = this.dashboard.mean_happy.subscribe(
+  private happiness_update_time: number = 2000; // update happiness every 2 seconds or more
+
+  private happiness$ = this.dashboard.mean_happy.pipe(
+    debounceTime(this.happiness_update_time)
+  ).subscribe(
     (value) => {
       this.happiness = value;
       // console.log("Value of the Happiness: " + value)
@@ -42,6 +46,7 @@ export class PresenterviewComponent implements OnInit, OnDestroy {
     }
   );
 
+  
 
 //   static MOVING_AVERAGE_NUMBER = 10;
 
@@ -108,23 +113,23 @@ export class PresenterviewComponent implements OnInit, OnDestroy {
 
   public setWarningtext() {
     if (this.peakIndicator <= 0.25 ) {
-      this.warningText = 'It seems you lost your audience. Surprise them!';
+      this.warningText = 'Your audience doesn\'t appear engaged. Surprise them!';
       this.warningColor = 'red';
     } else {
       if (this.groupFlowIndicator <= 0.50) {
-        this.warningText = 'Your audience is not on the same page. Repeat your explanations!';
+        this.warningText = 'Your audience seems to have conflicting opinions. Resolve them!';
         this.warningColor = 'red';
       } else {
         if (this.happiness <= 0.01) {
-          this.warningText = 'The mood reached the bottom line. Cheer up your audience!';
+          this.warningText = 'Your team doesn\'t look happy. Cheer them up!';
           this.warningColor = 'red';
         }else{
           if (this.peakIndicator <= 0.33 ) {
-            this.warningText = 'Your meeting seems to get boring. Try to be more emotional!';
+            this.warningText = 'Your audience starts to get bored. Try to be more emotional!';
             this.warningColor = 'orange';
           } else {
             if (this.groupFlowIndicator <= 0.67) {
-              this.warningText = 'It seems your audience is not on the same level. Maybe ask for ambiguities? ';
+              this.warningText = 'It seems your audience is not on the same page. Time for a discussion? ';
               this.warningColor = 'orange';
             } else {
               if (this.happiness <= 0.04) {
