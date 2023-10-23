@@ -19,6 +19,8 @@ export class PresenterviewComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<boolean> = new Subject();
 
+  showWarnings = true;
+
   public groupFlowIndicator?: number;
 
   public groupFlowIndicator$ = this.dashboard.groupFlowIndicatorLatest$.subscribe((x) => (this.groupFlowIndicator = x))

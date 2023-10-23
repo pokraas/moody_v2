@@ -5,10 +5,13 @@
       <app-happy-barometer fxFlexAlign="center" label="GroupFlow" [value]="groupFlowIndicator" orangeThreshold=50 greenThreshold=67></app-happy-barometer>
       <app-happy-barometer fxFlexAlign="center" label="Happiness" [value]="happiness" orangeThreshold=1 greenThreshold=4></app-happy-barometer>
   </div>
-
+    
   <br>
-
-  <div class="warnings" [style.border-color]="warningColor">
-    <div class="text-warning">{{warningText}}</div>
+    
+  <div class="container" fxLayout="column" fxLayoutGap="5%" fxLayoutAlign="center">
+    <div class="warnings" *ngIf="showWarnings" [style.border-color]="warningColor">
+      <div class="text-warning">{{warningText}}</div>
+    </div>
+    <button class="toggle-button" (click)="showWarnings = !showWarnings">{{ showWarnings ? 'Hide Warnings' : 'Show Warnings' }}</button>
   </div>
 </div>
