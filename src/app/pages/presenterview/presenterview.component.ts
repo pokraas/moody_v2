@@ -108,6 +108,7 @@ export class PresenterviewComponent implements OnInit, OnDestroy {
   private navigateToHome(): void {
     this.router.navigateByUrl('');
   }
+  
 
   private onFinishRecording(): void {
     this.router.navigateByUrl('analytics');
@@ -115,17 +116,17 @@ export class PresenterviewComponent implements OnInit, OnDestroy {
 
   public setWarningtext() {
     if (this.peakIndicator <= 0.25 ) {
-      this.warningText = 'Your audience doesn\'t appear engaged. Surprise them!';
+      this.warningText = 'Your team doesn\'t appear engaged. Surprise them!';
       this.warningColor = 'red';
     } else {
       if (this.groupFlowIndicator <= 0.50) {
-        this.warningText = 'Your audience seems to have conflicting opinions. Resolve them!';
+        this.warningText = 'Your teemmates seem to have conflicting opinions. Resolve them!';
         this.warningColor = 'red';
       } else {
         if (this.happiness <= 0.01) {
           this.warningText = 'Your team doesn\'t look happy. Cheer them up!';
           this.warningColor = 'red';
-        }else{
+        } else {
           if (this.peakIndicator <= 0.33 ) {
             this.warningText = 'Your audience starts to get bored. Try to be more emotional!';
             this.warningColor = 'orange';
@@ -137,12 +138,12 @@ export class PresenterviewComponent implements OnInit, OnDestroy {
               if (this.happiness <= 0.04) {
                 this.warningText = 'The mood seems to decrease. Try to smile more! ';
                 this.warningColor = 'orange';
-              }else{
+              } else {
                 this.warningText = 'You are doing a great job. Keep going!';
                 this.warningColor = 'white';
               }
-              }
             }
+          }
         }
       }
     }
