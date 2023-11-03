@@ -116,27 +116,27 @@ export class PresenterviewComponent implements OnInit, OnDestroy {
 
   public setWarningtext() {
     if (this.peakIndicator <= 0.25 ) {
-      this.warningText = 'Your team doesn\'t appear engaged. Surprise them!';
+      this.warningText = 'Team engagement seems to be low.';
       this.warningColor = 'red';
     } else {
       if (this.groupFlowIndicator <= 0.50) {
-        this.warningText = 'Your teemmates seem to have conflicting opinions. Resolve them!';
+        this.warningText = 'It looks like your team is not on the same page.';
         this.warningColor = 'red';
       } else {
         if (this.happiness <= 0.01) {
-          this.warningText = 'Your team doesn\'t look happy. Cheer them up!';
+          this.warningText = 'Team morale seems to be low.';
           this.warningColor = 'red';
         } else {
           if (this.peakIndicator <= 0.33 ) {
-            this.warningText = 'Your audience starts to get bored. Try to be more emotional!';
+            this.warningText = 'Team engagement seems to be flat.';
             this.warningColor = 'orange';
           } else {
             if (this.groupFlowIndicator <= 0.67) {
-              this.warningText = 'It seems your audience is not on the same page. Time for a discussion? ';
+              this.warningText = 'Someone in the team seems to be lost.';
               this.warningColor = 'orange';
             } else {
               if (this.happiness <= 0.04) {
-                this.warningText = 'The mood seems to decrease. Try to smile more! ';
+                this.warningText = 'The mood in the team seems to decrease.';
                 this.warningColor = 'orange';
               } else {
                 this.warningText = 'You are doing a great job. Keep going!';
