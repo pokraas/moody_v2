@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ScreenRecorderService } from 'src/app/services/screen-recorder.service';
 import { DashboardService } from 'src/app/services/dashboard.service';
-import { debounceTime, filter, take, takeUntil} from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { auditTime, filter, switchMap, take, takeUntil, tap} from 'rxjs/operators';
+import { Subject, interval } from 'rxjs';
 import 'chartjs-adapter-moment';
 
 @Component({
@@ -27,27 +27,19 @@ export class PresenterviewComponent implements OnInit, OnDestroy {
 
   public peakIndicator?: number;
 
-  public peakIndicator$ = this.dashboard.peakIndicatorLatest$.subscribe((x) => (this.peakIndicator = x))
-
+  public peakIndicator$ = this.dashboard.peakIndicatorLatest$.subscribe((x) => {
+    this.dashboard.happy.push({
+      timestamp: Date.now(),
+      value: this.happiness,
+    });
+    this.peakIndicator = x
+  })
+  
   public happiness?: number;
-
+  
+  public happiness$ = this.dashboard.mean_happy.subscribe((x) => (this.happiness = x))
+  
   private happiness_update_time: number = 2000; // update happiness every 2 seconds or more
-
-  private happiness$ = this.dashboard.mean_happy.pipe(
-    debounceTime(this.happiness_update_time)
-  ).subscribe(
-    (value) => {
-      this.happiness = value;
-      // console.log("Value of the Happiness: " + value)
-      this.setWarningtext();
-
-      this.dashboard.happy.push({
-        timestamp: Date.now(),
-        value: this.happiness,
-      });
-    }
-  );
-
   
 
 //   static MOVING_AVERAGE_NUMBER = 10;
@@ -103,6 +95,17 @@ export class PresenterviewComponent implements OnInit, OnDestroy {
         takeUntil(this.ngUnsubscribe),
         take(1),
       ).subscribe(this.onFinishRecording.bind(this));
+
+    interval(this.happiness_update_time)
+    .pipe(
+      tap(() => {
+        // console.log("Peak: " + this.peakIndicator.toFixed(2));
+        // console.log("Groupflow: " + this.groupFlowIndicator.toFixed(2));
+        // console.log("Happiness: " + this.happiness.toFixed(2));
+        this.setWarningtext();
+      })
+    )
+    .subscribe();
   }
 
   private navigateToHome(): void {
@@ -115,6 +118,9 @@ export class PresenterviewComponent implements OnInit, OnDestroy {
   }
 
   public setWarningtext() {
+    if (isNaN(this.happiness) || isNaN(this.peakIndicator) || isNaN(this.groupFlowIndicator)) {
+      return;
+    }
     if (this.peakIndicator <= 0.25 ) {
       this.warningText = 'Team engagement seems to be low.';
       this.warningColor = 'red';
