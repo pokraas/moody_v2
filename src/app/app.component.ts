@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public title = 'COINs –  Live Emotion Detection';
+  public title = 'Moody 2.0 –  Live Emotion Detection';
 
   sideBarOpen = false;
 
