@@ -4,25 +4,25 @@
   <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
     <div fxFlex="20%" class="card-container">
       <mat-card class="card">
-        <span>Average Moody Score: </span>
-        <span [innerHTML]="averageValue"></span>
+        <span>Average Mood: </span>
+        <span [innerHTML]="moodyScore"></span>
       </mat-card>
     </div>
     <div fxFlex="20%" class="card-container">
       <mat-card class="card">
-        <span>Average Peak Indicator: </span>
+        <span>Average Peak: </span>
         <span [innerHTML]="avgPeak"></span>
       </mat-card>
     </div>
     <div fxFlex="20%" class="card-container">
       <mat-card class="card">
-        <span>Average GroupFlow Indicator: </span>
+        <span>Average Groupflow: </span>
         <span [innerHTML]="avgGroupFlow"></span>
       </mat-card>
     </div>
     <div fxFlex="20%" class="card-container">
       <mat-card class="card">
-        <span>Average Happiness Indicator: </span>
+        <span>Average Happiness: </span>
         <span [innerHTML]="avgHappy"></span>
       </mat-card>
     </div>
@@ -33,4 +33,4 @@
   <app-emotion-rollercoaster [values]="faceDetection.detections" class="analytics__rollercoaster"></app-emotion-rollercoaster>
 </div>
 
-<button class="analytics__download" (click)="getDat">Download</button>
+<button class="analytics__download" (click)="downloadJson">Download</button>
